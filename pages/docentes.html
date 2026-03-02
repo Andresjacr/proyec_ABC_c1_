@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Docentes</title>
+    <link rel="stylesheet" href="global.css">
+</head>
+<body>
+
+    <div class="dashboard">
+        <h1>Gestión de Docentes</h1>
+
+        <form id="formDocente">
+            <input type="text" id="codigo" placeholder="Código" required>
+            <input type="text" id="identificacion" placeholder="Identificación" required>
+            <input type="text" id="nombres" placeholder="Nombres" required>
+            <input type="text" id="apellidos" placeholder="Apellidos" required>
+            <input type="email" id="emailDocente" placeholder="Email" required>
+            <input type="text" id="foto" placeholder="URL Foto">
+            <input type="text" id="area" placeholder="Área académica">
+            <button type="submit">Guardar Docente</button>
+        </form>
+
+        <hr>
+
+        <table border="1" width="100%">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Área</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaDocentes"></tbody>
+        </table>
+
+        <br>
+        <button onclick="window.location.href='dashboard.html'">
+            Volver al Dashboard
+        </button>
+    </div>
+
+    <script src="jsmain.js"></script>
+</body>
+<script src="../scrips/storage.js"></script>
+<script src="../scrips/auth.js"></script>
+<script src="../scrips/docentes.js"></script>
+</html>
