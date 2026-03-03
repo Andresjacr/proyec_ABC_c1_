@@ -1,9 +1,13 @@
-const session = JSON.parse(localStorage.getItem("session"));
+const currentUser = JSON.parse(localStorage.getItem("session"));
+
+if (currentUser){
+  console.log("usuario logueado:", currentUser.nombres);
+}
 
 const welcomeMessage = document.getElementById("welcomeMessage");
 
-if (session) {
-  welcomeMessage.textContent = `Hola, ${session.nombres} ${session.apellidos}`;
+if (currentUser) {
+  welcomeMessage.textContent = `Hola, ${currentUser.nombres} ${currentUser.apellidos}`;
 }
 
 const logoutBtn = document.getElementById("logout");
