@@ -1,0 +1,43 @@
+body{
+    background-color: #6f77c0;
+}
+
+.card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: rgb(255, 255, 255);
+    width: 420px;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    z-index: 2;
+}
+
+.logo {
+    width: 100px;
+    margin-bottom: 10px;
+}
+
+.avatar {
+    width: 90px;
+    border-radius: 50%;
+    margin: 15px 0;
+}
+
+small{
+    background: #00a2ff;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.link-card {
+    text-decoration: none;
+    color: inherit;
+}
+

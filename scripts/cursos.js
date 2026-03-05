@@ -55,9 +55,13 @@ function actualizarDocente(docenteCodigo, cursoCodigo) {
     const docente = docentes.find(d => d.codigo === docenteCodigo);
 
     if (docente) {
-        docente.cursos.push(cursoCodigo);
-        setData(STORAGE_KEYS.DOCENTES, docentes);
+    if (!docente.cursos) {
+        docente.cursos = [];
     }
+
+    docente.cursos.push(cursoCodigo);
+    setData(STORAGE_KEYS.DOCENTES, docentes);
+}
 }
 
 function renderCursos() {
@@ -130,5 +134,4 @@ function eliminarCurso(index) {
     cursos.splice(index, 1);
     setData(STORAGE_KEYS.CURSOS, cursos);
 
-    renderCursos();
 }

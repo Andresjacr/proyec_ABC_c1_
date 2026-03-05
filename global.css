@@ -10,7 +10,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #2C3E50, #3498DB);
+    background: linear-gradient(135deg, #4cbeab, #6892eb);
 }
 
 .login-container {
@@ -38,7 +38,7 @@ input {
 button {
     width: 100%;
     padding: 10px;
-    background: #3498DB;
+    background: #3437db;
     color: white;
     border: none;
     border-radius: 6px;

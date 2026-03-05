@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel LMS</title>
+  <link rel="stylesheet" href="../styles/panel.css">
+</head>
+<body>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <h2 class="logo">LMS</h2>
+      <nav>
+        <a href="cursos.html">Cursos</a>
+        <a href="modulos.html">Módulos</a>
+        <a href="lecciones.html">Lecciones</a>
+        <a href="docentes.html">Docentes</a>
+        <a href="administrativos.html">Administrativos</a>
+      </nav>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+      
+      <header class="header">
+        <h3>Bienvenido, <span id="userName"></span></h3>
+      </header>
+
+      <section class="content">
+        <h1>Panel Principal</h1>
+
+        <div class="cards">
+
+  <div class="cards">
+
+  <div class="card" onclick="window.location.href='cursos.html'">
+    <h2 id="totalCursos">0</h2>
+    <p>Cursos registrados</p>
+  </div>
+
+  <div class="card" onclick="window.location.href='modulos.html'">
+    <h2 id="totalModulos">0</h2>
+    <p>Módulos creados</p>
+  </div>
+
+  <div class="card" onclick="window.location.href='lecciones.html'">
+    <h2 id="totalLecciones">0</h2>
+    <p>Lecciones creadas</p>
+  </div>
+
+  <div class="card" onclick="window.location.href='docentes.html'">
+    <h2 id="totalDocentes">0</h2>
+    <p>Docentes registrados</p>
+  </div>
+
+  <section class="actividad">
+  <h3>Actividad reciente</h3>
+  <ul id="actividadLista"></ul>
+</section>
+
+<section class="grafica-section">
+  <h2>Estadísticas del Sistema</h2>
+  <canvas id="miGrafica"></canvas>
+</section>
+
+</div>
+
+      </section>
+
+    </main>
+
+  </div>
+  
+  <script src="../scripts/storage.js"></script>
+  <script src="../scripts/panel.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
