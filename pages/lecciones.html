@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Lecciones</title>
+<link rel="stylesheet" href="../styles/lecciones.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Lecciones</h1>
+
+    <div class="form-card">
+        <input type="text" id="titulo" placeholder="Título">
+        <input type="number" id="intensidad" placeholder="Intensidad Horaria">
+        <input type="text" id="contenido" placeholder="Contenido">
+        <input type="text" id="multimedia" placeholder="URL Multimedia">
+        <button onclick="agregarLeccion()">Agregar</button>
+    </div>
+
+    <div id="listaLecciones"></div>
+
+    <button onclick="window.location.href='modulos.html'">Volver</button>
+</div>
+
+<script src="../scripts/lecciones.js"></script>
+</body>
+</html>

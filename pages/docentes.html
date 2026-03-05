@@ -1,51 +1,72 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Gestión de Docentes</title>
-    <link rel="stylesheet" href="global.css">
-    <link rel="icon" type="image/png" sizes="32x32" href="../imgs/abc-logo.jpg">
+  <meta charset="UTF-8">
+  <title>Docentes - LMS</title>
+  <link rel="stylesheet" href="../styles/docentes.css">
 </head>
 <body>
 
-    <div class="dashboard">
-        <h1>Gestión de Docentes</h1>
+<div class="layout">
 
-        <form id="formDocente">
-            <input type="text" id="codigo" placeholder="Código" required>
-            <input type="text" id="identificacion" placeholder="Identificación" required>
-            <input type="text" id="nombres" placeholder="Nombres" required>
-            <input type="text" id="apellidos" placeholder="Apellidos" required>
-            <input type="email" id="emailDocente" placeholder="Email" required>
-            <input type="text" id="foto" placeholder="URL Foto">
-            <input type="text" id="area" placeholder="Área académica">
-            <button type="submit">Guardar Docente</button>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2 class="logo">LMS</h2>
+    <nav>
+      <a href="panel.html">Panel</a>
+      <a href="cursos.html">Cursos</a>
+      <a href="modulos.html">Módulos</a>
+      <a href="lecciones.html">Lecciones</a>
+      <a href="docentes.html" class="active">Docentes</a>
+    </nav>
+  </aside>
+
+  <!-- CONTENIDO -->
+  <main class="main-content">
+
+    <header class="header">
+      <h2>Gestión de Docentes</h2>
+    </header>
+
+    <section class="content">
+
+      <!-- FORMULARIO -->
+      <div class="form-container">
+        <h3>Registrar Docente</h3>
+
+        <form id="docenteForm">
+          <input type="hidden" id="docenteId">
+
+          <input type="text" id="nombres" placeholder="Nombres completos" required>
+          <input type="email" id="email" placeholder="Correo electrónico" required>
+          <input type="text" id="especialidad" placeholder="Especialidad" required>
+
+          <button type="submit">Guardar Docente</button>
         </form>
+      </div>
 
-        <hr>
-
-        <table border="1" width="100%">
-            <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Área</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="tablaDocentes"></tbody>
+      <!-- TABLA -->
+      <div class="table-container">
+        <h3>Lista de Docentes</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Especialidad</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tablaDocentes"></tbody>
         </table>
+      </div>
 
-        <br>
-        <button onclick="window.location.href='dashboard.html'">
-            Volver al Dashboard
-        </button>
-    </div>
+    </section>
 
-    <script src="jsmain.js"></script>
+  </main>
+
+</div>
+
+<script src="../scripts/docentes.js"></script>
 </body>
-<script src="../scrips/storage.js"></script>
-<script src="../scrips/auth.js"></script>
-<script src="../scrips/docentes.js"></script>
 </html>

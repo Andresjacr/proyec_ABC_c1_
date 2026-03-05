@@ -7,74 +7,78 @@
 </head>
 <body>
 
-  <div class="layout">
+<div class="layout">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <h2 class="logo">LMS</h2>
-      <nav>
-        <a href="cursos.html">Cursos</a>
-        <a href="modulos.html">Módulos</a>
-        <a href="lecciones.html">Lecciones</a>
-        <a href="docentes.html">Docentes</a>
-        <a href="administrativos.html">Administrativos</a>
-      </nav>
-    </aside>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2 class="logo">LMS</h2>
+    <nav>
+      <a href="cursos.html">Cursos</a>
+      <a href="modulos.html">Módulos</a>
+      <a href="lecciones.html">Lecciones</a>
+      <a href="docentes.html">Docentes</a>
+      <a href="administrativos.html">Administrativos</a>
+    </nav>
+  </aside>
 
-    <!-- CONTENIDO -->
-    <main class="main-content">
-      
-      <header class="header">
-        <h3>Bienvenido, <span id="userName"></span></h3>
-      </header>
+  <!-- CONTENIDO -->
+  <main class="main-content">
 
-      <section class="content">
-        <h1>Panel Principal</h1>
+    <header class="header">
+      <h3>Bienvenido, <span id="userName"></span></h3>
+    </header>
 
-        <div class="cards">
+    <section class="content">
+      <h1>Panel Principal</h1>
 
-  <div class="cards">
+      <!-- TARJETAS -->
+      <div class="cards">
+        <div class="card" onclick="window.location.href='cursos.html'">
+          <h2 id="totalCursos">0</h2>
+          <p>Cursos</p>
+        </div>
 
-  <div class="card" onclick="window.location.href='cursos.html'">
-    <h2 id="totalCursos">0</h2>
-    <p>Cursos registrados</p>
-  </div>
+        <div class="card" onclick="window.location.href='modulos.html'">
+          <h2 id="totalModulos">0</h2>
+          <p>Módulos</p>
+        </div>
 
-  <div class="card" onclick="window.location.href='modulos.html'">
-    <h2 id="totalModulos">0</h2>
-    <p>Módulos creados</p>
-  </div>
+        <div class="card" onclick="window.location.href='lecciones.html'">
+          <h2 id="totalLecciones">0</h2>
+          <p>Lecciones</p>
+        </div>
 
-  <div class="card" onclick="window.location.href='lecciones.html'">
-    <h2 id="totalLecciones">0</h2>
-    <p>Lecciones creadas</p>
-  </div>
+        <div class="card" onclick="window.location.href='docentes.html'">
+          <h2 id="totalDocentes">0</h2>
+          <p>Docentes</p>
+        </div>
+      </div>
 
-  <div class="card" onclick="window.location.href='docentes.html'">
-    <h2 id="totalDocentes">0</h2>
-    <p>Docentes registrados</p>
-  </div>
+      <!-- SECCIÓN INFERIOR -->
+      <div class="bottom-section">
 
-  <section class="actividad">
-  <h3>Actividad reciente</h3>
-  <ul id="actividadLista"></ul>
-</section>
+        <section class="actividad">
+          <h3>Actividad reciente</h3>
+          <ul id="actividadLista">
+            <li>Sistema iniciado correctamente</li>
+          </ul>
+        </section>
 
-<section class="grafica-section">
-  <h2>Estadísticas del Sistema</h2>
-  <canvas id="miGrafica"></canvas>
-</section>
+        <section class="grafica-section">
+          <h3>Estadísticas Generales</h3>
+          <canvas id="miGrafica"></canvas>
+        </section>
+
+      </div>
+
+    </section>
+
+  </main>
 
 </div>
 
-      </section>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../scripts/panel.js"></script>
 
-    </main>
-
-  </div>
-  
-  <script src="../scripts/storage.js"></script>
-  <script src="../scripts/panel.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

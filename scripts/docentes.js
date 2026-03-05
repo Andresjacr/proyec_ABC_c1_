@@ -1,69 +1,93 @@
-if (window.location.pathname.includes("docentes.html")) {
+function safeGet(key) {
+  return JSON.parse(localStorage.getItem(key)) || [];
+}
 
-    if (!localStorage.getItem(STORAGE_KEYS.DOCENTES)) {
-        setData(STORAGE_KEYS.DOCENTES, []);
-    }
+function safeSet(key, data) {
+  localStorage.setItem(key, JSON.stringify(data));
+}
 
-    renderDocentes();
+const form = document.getElementById("docenteForm");
+const tabla = document.getElementById("tablaDocentes");
 
-    document.getElementById("formDocente")
-    ?.addEventListener("submit", function(e) {
-        e.preventDefault();
-
-        const docentes = getData(STORAGE_KEYS.DOCENTES);
-
-        const nuevoDocente = {
-            codigo: document.getElementById("codigo").value,
-            identificacion: document.getElementById("identificacion").value,
-            nombres: document.getElementById("nombres").value,
-            apellidos: document.getElementById("apellidos").value,
-            email: document.getElementById("emailDocente").value,
-            foto: document.getElementById("foto").value,
-            area: document.getElementById("area").value,
-            cursos: []
-        };
-
-        docentes.push(nuevoDocente);
-        setData(STORAGE_KEYS.DOCENTES, docentes);
-
-        this.reset();
-        renderDocentes();
-    });
+function generarId() {
+  return "DOC" + Date.now();
 }
 
 function renderDocentes() {
-    const docentes = getData(STORAGE_KEYS.DOCENTES);
-    const tabla = document.getElementById("tablaDocentes");
+  const docentes = safeGet("docentes");
+  tabla.innerHTML = "";
 
-    if (!tabla) return;
+  docentes.forEach(docente => {
+    const tr = document.createElement("tr");
 
-    tabla.innerHTML = "";
+    tr.innerHTML = `
+      <td>${docente.nombres}</td>
+      <td>${docente.email}</td>
+      <td>${docente.especialidad}</td>
+      <td>
+        <span class="action-btn" onclick="editarDocente('${docente.id}')">Editar</span>
+        <span class="action-btn" onclick="eliminarDocente('${docente.id}')">Eliminar</span>
+      </td>
+    `;
 
-    docentes.forEach((docente, index) => {
-        tabla.innerHTML += `
-            <tr>
-                <td>${docente.codigo}</td>
-                <td>${docente.nombres} ${docente.apellidos}</td>
-                <td>${docente.email}</td>
-                <td>${docente.area}</td>
-                <td>
-                    <button onclick="eliminarDocente(${index})">Eliminar</button>
-                </td>
-            </tr>
-        `;
+    tabla.appendChild(tr);
+  });
+}
+
+form.addEventListener("submit", e => {
+  e.preventDefault();
+
+  const id = document.getElementById("docenteId").value;
+  const nombres = document.getElementById("nombres").value;
+  const email = document.getElementById("email").value;
+  const especialidad = document.getElementById("especialidad").value;
+
+  let docentes = safeGet("docentes");
+
+  if (id) {
+    docentes = docentes.map(d =>
+      d.id === id ? { id, nombres, email, especialidad } : d
+    );
+  } else {
+    docentes.push({
+      id: generarId(),
+      nombres,
+      email,
+      especialidad
     });
+  }
+
+  safeSet("docentes", docentes);
+  form.reset();
+  renderDocentes();
+});
+
+function editarDocente(id) {
+  const docentes = safeGet("docentes");
+  const docente = docentes.find(d => d.id === id);
+
+  document.getElementById("docenteId").value = docente.id;
+  document.getElementById("nombres").value = docente.nombres;
+  document.getElementById("email").value = docente.email;
+  document.getElementById("especialidad").value = docente.especialidad;
 }
 
-function eliminarDocente(index) {
-    const docentes = getData(STORAGE_KEYS.DOCENTES);
+function eliminarDocente(id) {
 
-    if (docentes[index].cursos.length > 0) {
-        alert("No se puede eliminar, tiene cursos asignados");
-        return;
-    }
+  const cursos = safeGet("cursos");
 
-    docentes.splice(index, 1);
-    setData(STORAGE_KEYS.DOCENTES, docentes);
+  const tieneCursos = cursos.some(curso => curso.docenteId === id);
 
-    renderDocentes();
+  if (tieneCursos) {
+    alert("No puedes eliminar este docente porque tiene cursos asignados.");
+    return;
+  }
+
+  let docentes = safeGet("docentes");
+  docentes = docentes.filter(d => d.id !== id);
+
+  safeSet("docentes", docentes);
+  renderDocentes();
 }
+
+document.addEventListener("DOMContentLoaded", renderDocentes);

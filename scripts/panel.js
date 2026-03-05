@@ -1,70 +1,92 @@
-// Mostrar nombre del usuario
+// Mostrar nombre usuario
 const user = JSON.parse(localStorage.getItem("session"));
 
 if (user && document.getElementById("userName")) {
-    document.getElementById("userName").textContent = user.nombres;
+  document.getElementById("userName").textContent = user.nombres;
 }
 
-
-// Función para obtener datos seguros
 function safeGet(key) {
-    return JSON.parse(localStorage.getItem(key)) || [];
+  return JSON.parse(localStorage.getItem(key)) || [];
 }
 
+function calcularTotales() {
 
-// Actualizar resumen del panel
-function actualizarResumen() {
+  const cursos = safeGet("cursos");
+  const docentes = safeGet("docentes");
 
-    const cursos = safeGet("cursos");
-    const modulos = safeGet("modulos");
-    const lecciones = safeGet("lecciones");
-    const docentes = safeGet("docentes");
+  let totalCursos = cursos.length;
+  let totalModulos = 0;
+  let totalLecciones = 0;
 
-    document.getElementById("totalCursos").textContent = cursos.length;
-    document.getElementById("totalModulos").textContent = modulos.length;
-    document.getElementById("totalLecciones").textContent = lecciones.length;
-    document.getElementById("totalDocentes").textContent = docentes.length;
-}
+  cursos.forEach(curso => {
 
+    if (!curso.modulos || !Array.isArray(curso.modulos)) {
+      curso.modulos = [];
+    }
 
-// Crear gráfica
-function crearGrafica() {
+    totalModulos += curso.modulos.length;
 
-    const cursos = safeGet("cursos");
-    const modulos = safeGet("modulos");
-    const lecciones = safeGet("lecciones");
-    const docentes = safeGet("docentes");
+    curso.modulos.forEach(modulo => {
 
-    const ctx = document.getElementById('miGrafica');
+      if (!modulo.lecciones || !Array.isArray(modulo.lecciones)) {
+        modulo.lecciones = [];
+      }
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Cursos', 'Módulos', 'Lecciones', 'Docentes'],
-            datasets: [{
-                label: 'Cantidad Registrada',
-                data: [
-                    cursos.length,
-                    modulos.length,
-                    lecciones.length,
-                    docentes.length
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            }
-        }
+      totalLecciones += modulo.lecciones.length;
     });
+
+  });
+
+  return {
+    totalCursos,
+    totalModulos,
+    totalLecciones,
+    totalDocentes: docentes.length
+  };
 }
 
+function actualizarResumen() {
+  const totales = calcularTotales();
 
-// Ejecutar cuando cargue la página
-document.addEventListener("DOMContentLoaded", () => {
-    actualizarResumen();
-    crearGrafica(); // 👈 ESTA LÍNEA FALTABA
-});
+  document.getElementById("totalCursos").textContent = totales.totalCursos;
+  document.getElementById("totalModulos").textContent = totales.totalModulos;
+  document.getElementById("totalLecciones").textContent = totales.totalLecciones;
+  document.getElementById("totalDocentes").textContent = totales.totalDocentes;
+
+  crearGrafica(totales);
+}
+
+let grafica;
+
+function crearGrafica(data) {
+
+  const ctx = document.getElementById("miGrafica");
+
+  if (grafica) {
+    grafica.destroy();
+  }
+
+  grafica = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["Cursos", "Módulos", "Lecciones", "Docentes"],
+      datasets: [{
+        label: "Cantidad",
+        data: [
+          data.totalCursos,
+          data.totalModulos,
+          data.totalLecciones,
+          data.totalDocentes
+        ]
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false }
+      }
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", actualizarResumen);

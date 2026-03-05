@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Módulos</title>
+<link rel="stylesheet" href="../styles/modulos.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Módulos del Curso</h1>
+
+    <div class="form-card">
+        <input type="text" id="codigo" placeholder="Código del módulo">
+        <input type="text" id="nombre" placeholder="Nombre">
+        <input type="text" id="descripcion" placeholder="Descripción">
+        <button onclick="agregarModulo()">Agregar Módulo</button>
+    </div>
+
+    <div id="listaModulos"></div>
+
+    <button onclick="window.location.href='cursos.html'">Volver</button>
+</div>
+
+<script src="../scripts/modulos.js"></script>
+</body>
+</html>

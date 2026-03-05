@@ -1,137 +1,95 @@
-if (window.location.pathname.includes("cursos.html")) {
+const KEY = "cursos";
+let editandoId = null;
 
-    if (!localStorage.getItem(STORAGE_KEYS.CURSOS)) {
-        setData(STORAGE_KEYS.CURSOS, []);
+function getCursos(){
+    return JSON.parse(localStorage.getItem(KEY)) || [];
+}
+
+function saveCursos(data){
+    localStorage.setItem(KEY, JSON.stringify(data));
+}
+
+function agregarCurso(){
+    const nombre = document.getElementById("nombre").value.trim();
+    const descripcion = document.getElementById("descripcion").value.trim();
+    const docenteId = document.getElementById("docenteId").value.trim();
+
+    if(!nombre || !descripcion || !docenteId){
+        alert("Todos los campos son obligatorios");
+        return;
     }
 
-    cargarDocentes();
+    let cursos = getCursos();
+
+    if(editandoId){
+        const curso = cursos.find(c => c.id === editandoId);
+        curso.nombre = nombre;
+        curso.descripcion = descripcion;
+        curso.docenteId = docenteId;
+        editandoId = null;
+    } else {
+        cursos.push({
+            id: "CUR" + Date.now(),
+            nombre,
+            descripcion,
+            docenteId,
+            modulos: []
+        });
+    }
+
+    saveCursos(cursos);
+    limpiar();
     renderCursos();
-
-    document.getElementById("formCurso")
-    .addEventListener("submit", function(e) {
-        e.preventDefault();
-
-        const cursos = getData(STORAGE_KEYS.CURSOS);
-
-        const nuevoCurso = {
-            codigo: document.getElementById("codigoCurso").value,
-            nombre: document.getElementById("nombreCurso").value,
-            descripcion: document.getElementById("descripcionCurso").value,
-            docenteId: document.getElementById("docenteSelect").value,
-            modulos: [],
-            activo: true
-        };
-
-        cursos.push(nuevoCurso);
-        setData(STORAGE_KEYS.CURSOS, cursos);
-
-        actualizarDocente(nuevoCurso.docenteId, nuevoCurso.codigo);
-
-        this.reset();
-        renderCursos();
-    });
 }
-//cargar docentes//
-function cargarDocentes() {
-    const docentes = getData(STORAGE_KEYS.DOCENTES);
-    const select = document.getElementById("docenteSelect");
 
-    select.innerHTML = '<option value="">Seleccione un docente</option>';
+function editarCurso(id){
+    const curso = getCursos().find(c => c.id === id);
 
-    docentes.forEach(docente => {
-        select.innerHTML += `
-            <option value="${docente.codigo}">
-                ${docente.nombres} ${docente.apellidos}
-            </option>
+    document.getElementById("nombre").value = curso.nombre;
+    document.getElementById("descripcion").value = curso.descripcion;
+    document.getElementById("docenteId").value = curso.docenteId;
+
+    editandoId = id;
+}
+
+function eliminarCurso(id){
+    if(!confirm("¿Seguro que quieres eliminar este curso?")) return;
+
+    let cursos = getCursos().filter(c => c.id !== id);
+    saveCursos(cursos);
+    renderCursos();
+}
+
+function renderCursos(){
+    const cont = document.getElementById("listaCursos");
+    cont.innerHTML = "";
+
+    getCursos().forEach(curso => {
+        cont.innerHTML += `
+            <div class="curso-item">
+                <div>
+                    <strong>${curso.nombre}</strong><br>
+                    <small>${curso.descripcion}</small>
+                </div>
+                <div>
+                    <button onclick="verModulos('${curso.id}')">Módulos</button>
+                    <button onclick="editarCurso('${curso.id}')">Editar</button>
+                    <button onclick="eliminarCurso('${curso.id}')">Eliminar</button>
+                </div>
+            </div>
         `;
     });
 }
 
-//actualisar cocente//
-function actualizarDocente(docenteCodigo, cursoCodigo) {
-
-    const docentes = getData(STORAGE_KEYS.DOCENTES);
-
-    const docente = docentes.find(d => d.codigo === docenteCodigo);
-
-    if (docente) {
-    if (!docente.cursos) {
-        docente.cursos = [];
-    }
-
-    docente.cursos.push(cursoCodigo);
-    setData(STORAGE_KEYS.DOCENTES, docentes);
-}
+function verModulos(id){
+    localStorage.setItem("cursoSeleccionado", id);
+    window.location.href = "modulos.html";
 }
 
-function renderCursos() {
-    const cursos = getData(STORAGE_KEYS.CURSOS);
-    const docentes = getData(STORAGE_KEYS.DOCENTES);
-    const tabla = document.getElementById("tablaCursos");
-
-    if (!tabla) return;
-
-    tabla.innerHTML = "";
-
-    cursos.forEach((curso, index) => {
-
-        const docente = docentes.find(d => d.codigo === curso.docenteId);
-
-        tabla.innerHTML += `
-            <tr>
-                <td>${curso.codigo}</td>
-                <td>${curso.nombre}</td>
-                <td>${docente ? docente.nombres : "Sin docente"}</td>
-                <td>
-                    <button onclick="eliminarCurso(${index})">Eliminar</button>
-                </td>
-            </tr>
-        `;
-    });
+function limpiar(){
+    document.getElementById("nombre").value = "";
+    document.getElementById("descripcion").value = "";
+    document.getElementById("docenteId").value = "";
 }
-//renderisar cursos//
-function renderCursos() {
-    const cursos = getData(STORAGE_KEYS.CURSOS);
-    const docentes = getData(STORAGE_KEYS.DOCENTES);
-    const tabla = document.getElementById("tablaCursos");
 
-    if (!tabla) return;
-
-    tabla.innerHTML = "";
-
-    cursos.forEach((curso, index) => {
-
-        const docente = docentes.find(d => d.codigo === curso.docenteId);
-
-        tabla.innerHTML += `
-            <tr>
-                <td>${curso.codigo}</td>
-                <td>${curso.nombre}</td>
-                <td>${docente ? docente.nombres : "Sin docente"}</td>
-                <td>
-                    <button onclick="eliminarCurso(${index})">Eliminar</button>
-                </td>
-            </tr>
-        `;
-    });
-}
-//eliminar cusros correctamente//
-function eliminarCurso(index) {
-
-    const cursos = getData(STORAGE_KEYS.CURSOS);
-    const cursoEliminado = cursos[index];
-
-    // Quitar del docente
-    const docentes = getData(STORAGE_KEYS.DOCENTES);
-
-    const docente = docentes.find(d => d.codigo === cursoEliminado.docenteId);
-
-    if (docente) {
-        docente.cursos = docente.cursos.filter(c => c !== cursoEliminado.codigo);
-        setData(STORAGE_KEYS.DOCENTES, docentes);
-    }
-
-    cursos.splice(index, 1);
-    setData(STORAGE_KEYS.CURSOS, cursos);
-
-}
+document.addEventListener("DOMContentLoaded", renderCursos);
