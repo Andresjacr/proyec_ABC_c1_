@@ -9,19 +9,15 @@
 
 <div class="layout">
 
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <h2 class="logo">LMS</h2>
     <nav>
       <a href="panel.html">Panel</a>
       <a href="cursos.html">Cursos</a>
-      <a href="modulos.html">Módulos</a>
-      <a href="lecciones.html">Lecciones</a>
       <a href="docentes.html" class="active">Docentes</a>
     </nav>
   </aside>
 
-  <!-- CONTENIDO -->
   <main class="main-content">
 
     <header class="header">
@@ -32,17 +28,25 @@
 
       <!-- FORMULARIO -->
       <div class="form-container">
-        <h3>Registrar Docente</h3>
+        <h3>Registrar / Editar Docente</h3>
 
         <form id="docenteForm">
-          <input type="hidden" id="docenteId">
 
-          <input type="text" id="nombres" placeholder="Nombres completos" required>
+          <input type="text" id="codigo" placeholder="Código (DOC001)" required>
+          <input type="text" id="identificacion" placeholder="Identificación" required>
+          <input type="text" id="nombres" placeholder="Nombres" required>
+          <input type="text" id="apellidos" placeholder="Apellidos" required>
           <input type="email" id="email" placeholder="Correo electrónico" required>
-          <input type="text" id="especialidad" placeholder="Especialidad" required>
+          <label>Foto del docente</label>
+            <input type="file" id="fotoDocente" accept="image/*" required>
+          <input type="text" id="area" placeholder="Área académica" required>
 
           <button type="submit">Guardar Docente</button>
         </form>
+
+        <div class="preview">
+          <img id="previewImg" src="" alt="Vista previa">
+        </div>
       </div>
 
       <!-- TABLA -->
@@ -51,9 +55,11 @@
         <table>
           <thead>
             <tr>
+              <th>Foto</th>
+              <th>Código</th>
               <th>Nombre</th>
               <th>Email</th>
-              <th>Especialidad</th>
+              <th>Área</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -67,6 +73,6 @@
 
 </div>
 
-<script src="../scripts/docentes.js"></script>
 </body>
+<script src="../scripts/docentes.js"></script>
 </html>

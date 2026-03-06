@@ -1,8 +1,18 @@
-// Mostrar nombre usuario
-const user = JSON.parse(localStorage.getItem("session"));
+const session = JSON.parse(localStorage.getItem("session"))
 
-if (user && document.getElementById("userName")) {
-  document.getElementById("userName").textContent = user.nombres;
+if(!session){
+
+window.location.href = "login.html"
+
+}
+
+// Mostrar nombre usuario
+const user = JSON.parse(localStorage.getItem("session"))
+
+if(user){
+
+document.getElementById("userName").textContent = user.nombres
+
 }
 
 function safeGet(key) {
@@ -90,3 +100,11 @@ function crearGrafica(data) {
 }
 
 document.addEventListener("DOMContentLoaded", actualizarResumen);
+
+function logout(){
+
+localStorage.removeItem("session")
+
+window.location.href = "login.html"
+
+}

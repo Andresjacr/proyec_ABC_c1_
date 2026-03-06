@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gestión de Administrativos</title>
+
+<link rel="stylesheet" href="../styles/admins.css">
+
+
+</head>
+
+<body>
+
+<div class="contenedor">
+
+<h1>Gestión de Administrativos</h1>
+
+<form id="formAdministrativo">
+
+<div class="grid-form">
+
+<input type="text" id="identificacion" placeholder="Identificación" required>
+
+<input type="text" id="nombres" placeholder="Nombres" required>
+
+<input type="text" id="apellidos" placeholder="Apellidos" required>
+
+<input type="email" id="email" placeholder="Email" required>
+
+<input type="text" id="telefono" placeholder="Teléfono" required>
+
+<input type="text" id="cargo" placeholder="Cargo" required>
+
+</div>
+
+<button type="submit" class="btn-guardar">
+Guardar Administrativo
+</button>
+
+</form>
+
+<div class="tabla-container">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Identificación</th>
+<th>Nombres</th>
+<th>Apellidos</th>
+<th>Email</th>
+<th>Teléfono</th>
+<th>Cargo</th>
+<th>Acciones</th>
+</tr>
+
+</thead>
+
+<tbody id="tablaAdministrativos"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script src="js/admins.js"></script>
+
+</body>
+
+</html>

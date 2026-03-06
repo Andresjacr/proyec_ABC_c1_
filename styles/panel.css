@@ -50,6 +50,16 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
+.header button{
+    background: #00a2ff;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 10%;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
 .content {
   padding: 30px;
   flex: 1;

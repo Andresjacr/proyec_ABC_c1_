@@ -10,16 +10,11 @@
   height: 100vh;
 }
 
-/* SIDEBAR */
 .sidebar {
   width: 230px;
   background: #111827;
   color: white;
   padding: 25px;
-}
-
-.logo {
-  margin-bottom: 30px;
 }
 
 .sidebar nav a {
@@ -30,13 +25,12 @@
   transition: 0.3s;
 }
 
-.sidebar nav a:hover,
-.sidebar nav a.active {
+.sidebar nav a.active,
+.sidebar nav a:hover {
   color: white;
   padding-left: 5px;
 }
 
-/* CONTENIDO */
 .main-content {
   flex: 1;
   background: #f3f4f6;
@@ -57,8 +51,8 @@
   gap: 30px;
 }
 
-/* FORM */
-.form-container {
+.form-container,
+.table-container {
   background: white;
   padding: 20px;
   border-radius: 12px;
@@ -68,7 +62,7 @@
 form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
   margin-top: 15px;
 }
 
@@ -91,12 +85,17 @@ button:hover {
   background: #1e40af;
 }
 
-/* TABLA */
-.table-container {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+.preview {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.preview img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #2563eb;
 }
 
 table {
@@ -107,13 +106,19 @@ table {
 
 th, td {
   padding: 10px;
-  text-align: left;
   border-bottom: 1px solid #eee;
 }
 
+.docente-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .action-btn {
-  margin-right: 5px;
   cursor: pointer;
-  color: #2563eb;
+  margin-right: 8px;
   font-weight: bold;
+  color: #2563eb;
 }

@@ -1,93 +1,140 @@
+// Obtener datos seguros
 function safeGet(key) {
-  return JSON.parse(localStorage.getItem(key)) || [];
+    return JSON.parse(localStorage.getItem(key)) || [];
 }
 
+// Guardar datos
 function safeSet(key, data) {
-  localStorage.setItem(key, JSON.stringify(data));
+    localStorage.setItem(key, JSON.stringify(data));
 }
 
-const form = document.getElementById("docenteForm");
-const tabla = document.getElementById("tablaDocentes");
-
-function generarId() {
-  return "DOC" + Date.now();
+// Inicializar docentes
+if (!localStorage.getItem("docentes")) {
+    safeSet("docentes", []);
 }
 
+
+// Renderizar docentes en la tabla
 function renderDocentes() {
-  const docentes = safeGet("docentes");
-  tabla.innerHTML = "";
 
-  docentes.forEach(docente => {
-    const tr = document.createElement("tr");
+    const docentes = safeGet("docentes");
+    const tabla = document.getElementById("tablaDocentes");
 
-    tr.innerHTML = `
-      <td>${docente.nombres}</td>
-      <td>${docente.email}</td>
-      <td>${docente.especialidad}</td>
-      <td>
-        <span class="action-btn" onclick="editarDocente('${docente.id}')">Editar</span>
-        <span class="action-btn" onclick="eliminarDocente('${docente.id}')">Eliminar</span>
-      </td>
-    `;
+    if (!tabla) return;
 
-    tabla.appendChild(tr);
-  });
-}
+    tabla.innerHTML = "";
 
-form.addEventListener("submit", e => {
-  e.preventDefault();
+    docentes.forEach((docente, index) => {
 
-  const id = document.getElementById("docenteId").value;
-  const nombres = document.getElementById("nombres").value;
-  const email = document.getElementById("email").value;
-  const especialidad = document.getElementById("especialidad").value;
+        tabla.innerHTML += `
+        <tr>
+            <td>${docente.codigo}</td>
 
-  let docentes = safeGet("docentes");
+            <td>
+                <img src="${docente.foto}" 
+                style="width:50px;height:50px;border-radius:50%;object-fit:cover;">
+            </td>
 
-  if (id) {
-    docentes = docentes.map(d =>
-      d.id === id ? { id, nombres, email, especialidad } : d
-    );
-  } else {
-    docentes.push({
-      id: generarId(),
-      nombres,
-      email,
-      especialidad
+            <td>${docente.nombres} ${docente.apellidos}</td>
+            <td>${docente.email}</td>
+            <td>${docente.area}</td>
+
+            <td>
+                <button onclick="editarDocente(${index})">Editar</button>
+                <button onclick="eliminarDocente(${index})">Eliminar</button>
+            </td>
+        </tr>
+        `;
     });
-  }
+}
 
-  safeSet("docentes", docentes);
-  form.reset();
-  renderDocentes();
+
+// Crear docente
+if (document.getElementById("formDocente")) {
+
+    document.getElementById("formDocente")
+    .addEventListener("submit", function(e) {
+
+        e.preventDefault();
+
+        const archivo = document.getElementById("fotoDocente").files[0];
+
+        if (!archivo) {
+            alert("Debes seleccionar una foto");
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function() {
+
+            const docentes = safeGet("docentes");
+
+            const nuevoDocente = {
+
+                codigo: document.getElementById("codigo").value,
+                identificacion: document.getElementById("identificacion").value,
+                nombres: document.getElementById("nombres").value,
+                apellidos: document.getElementById("apellidos").value,
+                email: document.getElementById("email").value,
+                area: document.getElementById("area").value,
+
+                foto: reader.result, // imagen en base64
+
+                cursos: []
+            };
+
+            docentes.push(nuevoDocente);
+
+            safeSet("docentes", docentes);
+
+            document.getElementById("formDocente").reset();
+
+            renderDocentes();
+        };
+
+        reader.readAsDataURL(archivo);
+    });
+}
+
+
+// Eliminar docente
+function eliminarDocente(index) {
+
+    const docentes = safeGet("docentes");
+
+    if (confirm("¿Eliminar este docente?")) {
+
+        docentes.splice(index, 1);
+
+        safeSet("docentes", docentes);
+
+        renderDocentes();
+    }
+}
+
+
+// Editar docente
+function editarDocente(index) {
+
+    const docentes = safeGet("docentes");
+
+    const docente = docentes[index];
+
+    document.getElementById("codigo").value = docente.codigo;
+    document.getElementById("identificacion").value = docente.identificacion;
+    document.getElementById("nombres").value = docente.nombres;
+    document.getElementById("apellidos").value = docente.apellidos;
+    document.getElementById("email").value = docente.email;
+    document.getElementById("area").value = docente.area;
+
+    eliminarDocente(index);
+}
+
+
+// Ejecutar al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+
+    renderDocentes();
+
 });
-
-function editarDocente(id) {
-  const docentes = safeGet("docentes");
-  const docente = docentes.find(d => d.id === id);
-
-  document.getElementById("docenteId").value = docente.id;
-  document.getElementById("nombres").value = docente.nombres;
-  document.getElementById("email").value = docente.email;
-  document.getElementById("especialidad").value = docente.especialidad;
-}
-
-function eliminarDocente(id) {
-
-  const cursos = safeGet("cursos");
-
-  const tieneCursos = cursos.some(curso => curso.docenteId === id);
-
-  if (tieneCursos) {
-    alert("No puedes eliminar este docente porque tiene cursos asignados.");
-    return;
-  }
-
-  let docentes = safeGet("docentes");
-  docentes = docentes.filter(d => d.id !== id);
-
-  safeSet("docentes", docentes);
-  renderDocentes();
-}
-
-document.addEventListener("DOMContentLoaded", renderDocentes);
