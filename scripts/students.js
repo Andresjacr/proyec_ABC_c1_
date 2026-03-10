@@ -1,4 +1,6 @@
-// Obtener datos seguros
+console.log("JS funcionando");
+
+// Obtener datos
 function safeGet(key) {
     return JSON.parse(localStorage.getItem(key)) || [];
 }
@@ -8,13 +10,15 @@ function safeSet(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
 }
 
-// Inicializar studentss
+// Inicializar almacenamiento
 if (!localStorage.getItem("Students")) {
     safeSet("Students", []);
 }
 
+// =============================
+// RENDERIZAR TABLA
+// =============================
 
-// Renderizar Students en la tabla
 function renderStudents() {
 
     const Students = safeGet("Students");
@@ -24,74 +28,69 @@ function renderStudents() {
 
     tabla.innerHTML = "";
 
-    Students.forEach((students, index) => {
+    Students.forEach((student, index) => {
 
         tabla.innerHTML += `
         <tr>
-            <td>${students.identificacion}</td>
-            <td>${students.nombres} ${students.apellidos}</td>
-            <td>${students.genero}</td>
-            <td>${students.fecha_nacimiento}</td>
-            <td>${students.direccion}</td>
-            <td>${students.telefono}</td>
-            <td>${students.curso}</td>
-
+            <td>${student.identificacion}</td>
+            <td>${student.nombres} ${student.apellidos}</td>
+            <td>${student.genero}</td>
+            <td>${student.fecha_nacimiento}</td>
+            <td>${student.direccion}</td>
+            <td>${student.telefono}</td>
+            <td>${student.curso}</td>
             <td>
-                <button onclick="editarstudents(${index})">Editar</button>
-                <button onclick="eliminarstudents(${index})">Eliminar</button>
+                <button onclick="editarStudents(${index})">Editar</button>
+                <button onclick="eliminarStudents(${index})">Eliminar</button>
             </td>
         </tr>
         `;
+
     });
+
 }
 
+// =============================
+// CREAR ESTUDIANTE
+// =============================
 
-// Crear students
-if (document.getElementById("formstudents")) {
+const form = document.getElementById("formstudents");
 
-    document.getElementById("formstudents")
-    .addEventListener("submit", function(e) {
+if (form) {
+
+    form.addEventListener("submit", function(e) {
 
         e.preventDefault();
 
+        const Students = safeGet("Students");
 
-
-        const reader = new FileReader();
-
-        reader.onload = function() {
-
-            const Students = safeGet("Students");
-
-            const nuevostudents = {
-
-                identificacion: document.getElementById("identificacion").value,
-                nombres: document.getElementById("nombres").value,
-                apellidos: document.getElementById("apellidos").value,
-                email: document.getElementById("genero").value,
-                fecha_nacimiento: document.getElementById("fecha_nacimiento").value,
-                direccion: document.getElementById("direccion").value,
-                telefono: document.getElementById("telefono").value,
-                curso: document.getElementById("curso").value,
-
-
-                cursos: []
-            };
-
-            Students.push(nuevostudents);
-
-            safeSet("Students", Students);
-
-            document.getElementById("formstudents").reset();
-
-            renderStudents();
+        const nuevoStudent = {
+            identificacion: document.getElementById("identificacion").value,
+            nombres: document.getElementById("nombres").value,
+            apellidos: document.getElementById("apellidos").value,
+            genero: document.getElementById("genero").value,
+            fecha_nacimiento: document.getElementById("fecha_nacimiento").value,
+            direccion: document.getElementById("direccion").value,
+            telefono: document.getElementById("telefono").value,
+            curso: document.getElementById("curso").value
         };
 
-        reader.readAsDataURL(archivo);
+        Students.push(nuevoStudent);
+
+        safeSet("Students", Students);
+
+        form.reset();
+
+        renderStudents();
+
     });
+
 }
 
+// =============================
+// ELIMINAR ESTUDIANTE
+// =============================
 
-// Eliminar students
 function eliminarStudents(index) {
 
     const Students = safeGet("Students");
@@ -103,33 +102,38 @@ function eliminarStudents(index) {
         safeSet("Students", Students);
 
         renderStudents();
+
     }
+
 }
 
+// =============================
+// EDITAR ESTUDIANTE
+// =============================
 
-// Editar Students
 function editarStudents(index) {
 
     const Students = safeGet("Students");
 
-    const Student = Student[index];
+    const student = Students[index];
 
-    document.getElementById("identificacion").value = Students.identificacion;
-    document.getElementById("nombres").value = Students.nombres;
-    document.getElementById("apellidos").value = Students.apellidos;
-    document.getElementById("genero").value = Students.genero;
-    document.getElementById("fecha_nacimiento").value = Students.fecha_nacimiento;
-    document.getElementById("telefono").value = Students.direccion;
-    document.getElementById("direccion").value = Students.telefono;
-    document.getElementById("curso").value = Students.curso;
+    document.getElementById("identificacion").value = student.identificacion;
+    document.getElementById("nombres").value = student.nombres;
+    document.getElementById("apellidos").value = student.apellidos;
+    document.getElementById("genero").value = student.genero;
+    document.getElementById("fecha_nacimiento").value = student.fecha_nacimiento;
+    document.getElementById("direccion").value = student.direccion;
+    document.getElementById("telefono").value = student.telefono;
+    document.getElementById("curso").value = student.curso;
 
     eliminarStudents(index);
+
 }
 
+// =============================
+// CARGAR TABLA AL ABRIR PAGINA
+// =============================
 
-// Ejecutar al cargar la página
-document.addEventListener("DOMContentLoaded", () => {
-
+document.addEventListener("DOMContentLoaded", function () {
     renderStudents();
-
 });
