@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Students- LMS</title>
+  <link rel="stylesheet" href="../styles/docentes.css">
+</head>
+<body>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <h2 class="logo">LMS</h2>
+    <nav>
+      <a href="panel.html">Panel</a>
+      <a href="cursos.html">Cursos</a>
+      <a href="docentes.html">docentes</a>
+      <a href="students.html" class="active">Estudiantes</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="header">
+      <h2>Gestión de Estudiantes</h2>
+    </header>
+
+    <section class="content">
+
+      <!-- FORMULARIO -->
+      <div class="form-container">
+        <h3>Registrar / Editar Estudiante </h3>
+
+        <form id="docenteForm">
+
+          <input type="text" id="identificacion" placeholder="Identificación" required>
+          <input type="text" id="nombres" placeholder="Nombres" required>
+          <input type="text" id="apellidos" placeholder="Apellidos" required>
+          <input type="genero" id="genero" placeholder="genero" required>
+          <input type="fecha de nacimiento" id="fecha_nacimiento" placeholder="fecha de nacimiento" required>
+          <input type="direccion" id="direccion" placeholder="direccion" required>
+          <input type="telefono" id="telefono" placeholder="telefono" required>
+          <input type="text" id="curso" placeholder="curso" required>
+
+          <button type="submit">Guardar Estudiantes</button>
+        </form>
+      </div>
+
+      <!-- TABLA -->
+      <div class="table-container">
+        <h3>Lista de Estudiantes</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>identificacion</th>
+              <th>Nombre</th>
+              <th>Genero</th>
+              <th>fecha de nacimiento</th>
+              <th>direccion</th>
+              <th>Telefono</th>
+              <th>Curso</th>
+            </tr>
+          </thead>
+          <tbody id="tablaStudents"></tbody>
+        </table>
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+</body>
+<script src="../scripts/students.js"></script>
+</html>
